@@ -1,0 +1,292 @@
+$maincolor: #0070B9;
+
+body {
+    background-color: #e6ecf0;
+    margin: 0;
+}
+
+#main {
+    background-color: white;
+    margin: 0 auto;
+    min-height: 100%;
+    padding: 20px 0;
+    width: 75%;
+}
+
+$break-medium: 768px;
+$break-medium-small: 550px;
+$break-small: 450px;
+
+.voting-open {
+    background-color: lighten($maincolor, 55%);
+    border: 2px solid $maincolor;
+    font-size: 1.1em;
+    font-weight: 800;
+    margin: 10px 0;
+    padding: 8px 30px;
+}
+
+.language {
+    padding: 0 0 8px 0;
+    text-align: center;
+}
+
+.questionnaire {
+    margin: 0 auto;
+    max-width: 1024px;
+
+    .candidate-info {
+        height: 200px;
+
+        @media screen and (max-width: $break-medium) {
+            height: 300px;
+        }
+
+        @media screen and (max-width: $break-medium-small) {
+            height: 450px;
+        }
+
+        .photo {
+            background-position: center;
+            background-size: 200px;
+            background-repeat: no-repeat;
+            float: right;
+            height: 200px;
+            width: 25%;
+
+            @media screen and (max-width: $break-medium) {
+                width: 50%;
+                height: 300px;
+            }
+
+            @media screen and (max-width: $break-medium-small) {
+                float: left;
+                height: 200px;
+                width: 100%;
+            }
+        }
+
+        .details {
+            float: left;
+            height: 200px;
+            width: 74%;
+
+            .external-links {
+                list-style: none;
+                margin-top: 20px;
+
+                li {
+                    padding: 5px;
+
+                    a {
+                        border-radius: 2px;
+                        background-color: $maincolor;
+                        color: white;
+                        display: inline-block;
+                        font-weight: 800;
+                        padding: 4px 10px;
+                        text-shadow: 1px 1px 0px rgba(0,0,0,0.25);
+                        text-transform: uppercase;
+
+                    }
+                }
+            }
+
+            @media screen and (max-width: $break-medium) {
+                width: 49%;
+            }
+
+            @media screen and (max-width: $break-medium-small) {
+                width: 100%;
+            }
+        }
+    }
+
+    .introduction {
+        font-size: 1.1rem;
+        padding-bottom: 20px;
+
+        div {
+            padding: 5px 0;
+        }
+
+        .more {
+            text-align: center;
+        }
+
+        .the-rest {
+            display: none;
+        }
+
+        &.expanded {
+            .more {
+                display: none;
+            }
+
+            .the-rest {
+                display: inherit;
+            }
+        }
+    }
+
+    .instructions {
+        font-size: 1.2rem;
+        font-weight: 900;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .question-block {
+        border: 2px solid $maincolor;
+        margin: 20px 0;
+
+        .question-text {
+            background-color: $maincolor;
+            border: 1px solid $maincolor;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 0.4px;
+            line-height: 1.6rem;
+            margin-bottom: 5px;
+            padding: 8px 15px;
+        }
+    }
+
+    .answer {
+        margin: 0 10px;
+
+        &.current {
+            display: inherit;
+        }
+
+        .answer-header {
+            background-color: $maincolor;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 4px 10px;
+
+            .close {
+                cursor: pointer;
+                float: right;
+                text-align: right;
+            }
+        }
+
+        .answer-text {
+            font-size: 1.1em;
+            line-height: 1.5em;
+            padding: 5px 5px 10px 5px;
+
+            .no-answer {
+                font-style: italic;
+                font-size: 1.2em;
+                padding: 8px;
+            }
+
+            p {
+                padding: 8px 0;
+            }
+        }
+}
+
+    .candidate-icons {
+        margin: 10px auto;
+        width: 100%;
+
+        .candidate-icon {
+            cursor: pointer;
+            display: inline-block;
+            height: 160px;
+            position: relative;
+            width: 32%;
+
+            .icon {
+                background-color: rgba(0, 0, 0, 0);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 150px;
+                border-color: black;
+                border-style: solid;
+                border-width: 1px;
+                height: 150px;
+                left: 50%;
+                position: absolute;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                -webkit-transform: translate(-50%, -50%);
+                width: 150px;
+            }
+
+            &.current .icon {
+                border-color: $maincolor;
+                border-width: 5px;
+            }
+
+            &.not-current .icon {
+                opacity: 0.5;
+            }
+
+            @media screen and (max-width: $break-medium) {
+                width: 49%;
+            }
+
+            @media screen and (max-width: $break-small) {
+                .icon {
+                    background-size: 100px;
+                    height: 100px;
+                    width: 100px;
+                }
+            }
+        }
+    }
+
+    &.candidate-page {
+        .instructions {
+            display: none;
+        }
+
+        .candidate-icon {
+            display: none;
+        }
+
+        .close {
+            display: none;
+        }
+
+        &.hartman {
+            .hartman.answer {
+                display: inherit;
+            }
+        }
+
+        &.wegman {
+            .wegman.answer {
+                display: inherit;
+            }
+        }
+
+        &.king {
+            .king.answer {
+                display: inherit;
+            }
+        }
+    }
+
+    .candidate-links {
+        font-size: 1.1rem;
+        text-align: center;
+
+        .candidate-links-list {
+            list-style: none;
+        }
+    }
+
+    .endorsement {
+        font-size: 1.2rem;
+        margin: 20px;
+        text-align: center;
+    }
+}
+
