@@ -7,7 +7,7 @@ export default class QuestionnaireClient {
     }
 
     getCandidates() {
-        return [
+        return Promise.resolve([
             {
                 name: "Steven Mentzer",
                 district: "ocd-division/country:us/state:pa/sldl:97",
@@ -28,13 +28,13 @@ export default class QuestionnaireClient {
                 website: "https://www.dana4pa97.com/",
                 facebookId: "Dana4PA97",
             },
-        ];
+        ]);
     }
 
     getQuestions() {
-        return [
+        return Promise.resolve([
             {
-                candidate: "Scott Mentzer",
+                candidate: "Steven Mentzer",
                 text: "Do you like ice cream?",
                 answer: "No",
             },
@@ -43,6 +43,6 @@ export default class QuestionnaireClient {
                 text: "Do you like ice cream?",
                 answer: "Yes",
             },
-        ];
+        ]);
     }
 }

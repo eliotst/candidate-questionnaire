@@ -26,4 +26,5 @@ const question = PropTypes.shape({
 export default {
     candidate,
     district,
+    question,
 };

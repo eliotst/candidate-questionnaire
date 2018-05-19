@@ -3,7 +3,15 @@ export default class DistrictClient {
         this.accessToken = accessToken;
     }
 
-    getDistrict(address) {
+    getDistrict(districtId) {
+        return Promise.resolve({
+            id: "ocd-division/country:us/state:pa/sldl:97",
+            name: "PA State House District 97",
+            type: "House",
+        });
+    }
+
+    getDistrictByAddress(address) {
         return null;
     }
 }
