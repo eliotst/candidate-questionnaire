@@ -34,14 +34,17 @@ export default class QuestionnaireClient {
     getQuestions() {
         return Promise.resolve([
             {
-                candidate: "Steven Mentzer",
                 text: "Do you like ice cream?",
-                answer: "No",
-            },
-            {
-                candidate: "Dana Hamp-Gulick",
-                text: "Do you like ice cream?",
-                answer: "Yes",
+                answers: [
+                    {
+                        candidate: "Steven Mentzer",
+                        answer: "No",
+                    },
+                    {
+                        candidate: "Dana Hamp-Gulick",
+                        answer: "Yes",
+                    },
+                ],
             },
         ]);
     }

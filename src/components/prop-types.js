@@ -1,5 +1,10 @@
 import PropTypes from "prop-types";
 
+const answer = PropTypes.shape({
+    candidate: PropTypes.string.isRequired,
+    answer: PropTypes.string.isRequired,
+});
+
 const district = PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -18,12 +23,12 @@ const candidate = PropTypes.shape({
 });
 
 const question = PropTypes.shape({
-    candidate: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
-    answer: PropTypes.string.isRequired,
+    answers: PropTypes.arrayOf(answer).isRequired,
 });
 
 export default {
+    answer,
     candidate,
     district,
     question,
