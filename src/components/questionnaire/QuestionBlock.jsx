@@ -16,9 +16,16 @@ export default class QuestionBlock extends React.Component {
     }
 
     setCurrentCandidate(candidate) {
-        this.setState({
-            currentCandidate: candidate,
-        });
+        const { currentCandidate } = this.state;
+        if (currentCandidate !== null && currentCandidate.name === candidate.name) {
+            this.setState({
+                currentCandidate: null,
+            });
+        } else {
+            this.setState({
+                currentCandidate: candidate,
+            });
+        }
     }
 
     render() {
@@ -29,7 +36,10 @@ export default class QuestionBlock extends React.Component {
         return (
             <div className="question-block">
                 <QuestionText text={question.text} />
-                <CandidateIcons candidates={candidates} setCurrentCandidate={this.setCurrentCandidate} />
+                <CandidateIcons
+                    candidates={candidates}
+                    setCurrentCandidate={this.setCurrentCandidate}
+                />
                 <Answer answer={currentAnswer} />
             </div>
         );

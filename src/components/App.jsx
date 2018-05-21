@@ -25,6 +25,7 @@ export default class App extends React.Component {
             candidates: null,
             currentDistrict: null,
             currentCandidate: null,
+            error: null,
             questions: null,
         };
         this.questionnaireClient = new QuestionnaireClient({});
@@ -35,12 +36,15 @@ export default class App extends React.Component {
         const currentDistrictParameter = getQueryParameter("district") || "sldu:13";
         // const currentCandidateParameter = getQueryParameter("candidate");
         this.questionnaireClient.getCandidates()
-            .then(candidates => this.setState({ candidates }));
+            .then(candidates => this.setState({ candidates }))
+            .catch(error => this.setState({ error }));
         this.questionnaireClient.getQuestions()
-            .then(questions => this.setState({ questions }));
+            .then(questions => this.setState({ questions }))
+            .catch(error => this.setState({ error }));
         if (currentDistrictParameter !== undefined) {
             this.districtClient.getDistrict(currentDistrictParameter)
-                .then(district => this.setState({ currentDistrict: district }));
+                .then(district => this.setState({ currentDistrict: district }))
+                .catch(error => this.setState({ error }));
         }
     }
 
@@ -49,9 +53,13 @@ export default class App extends React.Component {
             candidates,
             currentDistrict,
             currentCandidate,
+            error,
             questions,
         } = this.state;
-        if (questions === null || currentDistrict === null) {
+        if (error !== null) {
+            return <div>{error}</div>;
+        }
+        if (questions === null || currentDistrict === null || candidates === null) {
             return (
                 <div>Loading ...</div>
             );

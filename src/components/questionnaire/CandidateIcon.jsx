@@ -5,11 +5,12 @@ import propTypes from "../prop-types";
 
 export default function CandidateIcon({ candidate, setCurrentCandidate }) {
     const onClick = () => setCurrentCandidate(candidate);
+    const iconStyle = {
+        backgroundImage: `url(${candidate.imageUrl})`,
+    };
     return (
         <div className="candidate-icon">
-            <button className="icon" onClick={onClick}>
-                {candidate.name}
-            </button>
+            <button className="icon" onClick={onClick} style={iconStyle} />
         </div>
     );
 }
