@@ -1,6 +1,7 @@
 import React from "react";
 
 import DistrictClient from "../clients/district";
+import DistrictPicker from "./district/DistrictPicker";
 import Questionnaire from "./questionnaire/Questionnaire";
 import QuestionnaireClient from "../clients/questionnaire";
 
@@ -18,22 +19,31 @@ const getQueryParameter = (key) => {
     return undefined;
 };
 
+const getRelevantDistricts = (candidates) => {
+    const candidateDistricts = candidates.reduce((acc, candidate) => {
+        acc[candidate.district] = true;
+        return acc;
+    }, {});
+    return Object.keys(candidateDistricts);
+};
+
 export default class App extends React.Component {
     constructor(props) {
         super(props);
+        const currentDistrictParameter = getQueryParameter("district") || "Pennsylvania State House district 97";
         this.state = {
             candidates: null,
-            currentDistrict: null,
+            currentDistrict: currentDistrictParameter,
             currentCandidate: null,
             error: null,
             questions: null,
         };
         this.questionnaireClient = new QuestionnaireClient({});
         this.districtClient = new DistrictClient({});
+        this.setCurrentDistrict = this.setCurrentDistrict.bind(this);
     }
 
     componentDidMount() {
-        const currentDistrictParameter = getQueryParameter("district") || "sldu:13";
         // const currentCandidateParameter = getQueryParameter("candidate");
         this.questionnaireClient.getCandidates()
             .then(candidates => this.setState({ candidates }))
@@ -41,11 +51,12 @@ export default class App extends React.Component {
         this.questionnaireClient.getQuestions()
             .then(questions => this.setState({ questions }))
             .catch(error => this.setState({ error }));
-        if (currentDistrictParameter !== undefined) {
-            this.districtClient.getDistrict(currentDistrictParameter)
-                .then(district => this.setState({ currentDistrict: district }))
-                .catch(error => this.setState({ error }));
-        }
+    }
+
+    setCurrentDistrict({ district }) {
+        this.setState({
+            currentDistrict: district,
+        });
     }
 
     render() {
@@ -64,8 +75,14 @@ export default class App extends React.Component {
                 <div>Loading ...</div>
             );
         }
+        const relevantDistricts = getRelevantDistricts(candidates);
         return (
             <div>
+                <DistrictPicker
+                    currentDistrict={currentDistrict}
+                    districts={relevantDistricts}
+                    onSelectDistrict={this.setCurrentDistrict}
+                />
                 <Questionnaire
                     candidates={candidates}
                     currentDistrict={currentDistrict}

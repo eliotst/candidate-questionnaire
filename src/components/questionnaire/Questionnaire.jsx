@@ -11,6 +11,9 @@ export default function Questionnaire({
     currentCandidate,
     questions,
 }) {
+    if (currentCandidate === null && currentDistrict === null) {
+        return <div>Select a district above.</div>;
+    }
     const questionnaireComponent = currentCandidate ?
         <Candidate currentCandidate={currentCandidate} questions={questions} /> :
         (
@@ -22,7 +25,6 @@ export default function Questionnaire({
         );
     return (
         <div className="questionnaire">
-            <div className="instructions">Click on the picture of a candidate to see their answer.</div>
             {questionnaireComponent}
         </div>
     );
@@ -31,7 +33,7 @@ export default function Questionnaire({
 Questionnaire.propTypes = {
     candidates: PropTypes.arrayOf(propTypes.candidate).isRequired,
     currentCandidate: propTypes.candidate,
-    currentDistrict: propTypes.district,
+    currentDistrict: PropTypes.string,
     questions: PropTypes.arrayOf(propTypes.question).isRequired,
 };
 

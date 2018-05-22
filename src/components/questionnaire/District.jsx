@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
+import CandidateComparison from "./CandidateComparison";
 import propTypes from "../prop-types";
 import QuestionBlock from "./QuestionBlock";
 
@@ -12,7 +13,7 @@ const isQuestionRelevant = (question, relevantCandidateNames) => {
 
 export default function District({ currentDistrict, candidates, questions }) {
     const relevantCandidates = candidates.filter(candidate =>
-        candidate.district === currentDistrict.id);
+        candidate.district === currentDistrict);
     const relevantCandidateNames = relevantCandidates.map(candidate => candidate.name);
     const relevantQuestions = questions.filter(question =>
         isQuestionRelevant(question, relevantCandidateNames));
@@ -20,6 +21,8 @@ export default function District({ currentDistrict, candidates, questions }) {
         <QuestionBlock key={question.text} question={question} candidates={relevantCandidates} />);
     return (
         <div>
+            <CandidateComparison candidates={relevantCandidates} />
+            <div className="instructions">Click on the picture of a candidate to see their answer.</div>
             {questionBlocks}
         </div>
     );
@@ -27,6 +30,6 @@ export default function District({ currentDistrict, candidates, questions }) {
 
 District.propTypes = {
     candidates: PropTypes.arrayOf(propTypes.candidate).isRequired,
-    currentDistrict: propTypes.district.isRequired,
+    currentDistrict: PropTypes.string.isRequired,
     questions: PropTypes.arrayOf(propTypes.question).isRequired,
 };

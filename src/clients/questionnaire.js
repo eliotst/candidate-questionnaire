@@ -47,7 +47,7 @@ function mapCandidates(csvData) {
         district: csvDatum.District,
         party: csvDatum.Party,
         candidateType: csvDatum["Candidate Type"],
-        writeIn: csvDatum["Write In?"],
+        writeIn: csvDatum["Write In?"] === "TRUE",
         imageUrl: csvDatum["Candidate Picture URL"],
         website: csvDatum["Candidate Website URL"],
         facebookId: csvDatum["Candidate Facebook Name"],

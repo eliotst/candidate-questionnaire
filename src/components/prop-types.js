@@ -5,12 +5,6 @@ const answer = PropTypes.shape({
     answer: PropTypes.string.isRequired,
 });
 
-const district = PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-});
-
 const candidate = PropTypes.shape({
     name: PropTypes.string.isRequired,
     district: PropTypes.string.isRequired,
@@ -30,6 +24,5 @@ const question = PropTypes.shape({
 export default {
     answer,
     candidate,
-    district,
     question,
 };
