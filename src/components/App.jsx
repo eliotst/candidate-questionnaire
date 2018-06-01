@@ -53,7 +53,7 @@ export default class App extends React.Component {
             .catch(error => this.setState({ error }));
     }
 
-    setCurrentDistrict({ district }) {
+    setCurrentDistrict(district) {
         this.setState({
             currentDistrict: district,
         });

@@ -4,7 +4,7 @@ import React from "react";
 export default function DistrictList({ currentDistrict, districts, onSelectDistrict }) {
     const districtOptions = districts.map(district =>
         (
-            <option value={district} onClick={() => onSelectDistrict(district)}>
+            <option value={district} key={district} onClick={() => onSelectDistrict(district)}>
                 {district}
             </option>
         ));

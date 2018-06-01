@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const apiUrl = "https://sheets.googleapis.com/v4/spreadsheets";
-const defaultSheetUrl = "https://docs.google.com/spreadsheets/d/1EYBBLTLXT5BbbDalENOaIQNIWBpkYrNxc64sETH7X6E/edit?usp=sharing";
 const defaultSpreadsheetId = "1EYBBLTLXT5BbbDalENOaIQNIWBpkYrNxc64sETH7X6E";
 const defaultKey = "AIzaSyC0anour3kbel1AV-hlxTiX9blUXUQqw3U";
 
@@ -11,7 +10,11 @@ function generateUrl(spreadsheetId, range, key) {
     return `${apiUrl}/${spreadsheetId}/values/${range}?key=${key}`;
 }
 
-function getSpreadsheetData({ spreadsheetId = defaultSpreadsheetId, range = RANGE, key = defaultKey }) {
+function getSpreadsheetData({
+    spreadsheetId = defaultSpreadsheetId,
+    range = RANGE,
+    key = defaultKey,
+}) {
     const requestUrl = generateUrl(spreadsheetId, range, key);
     return axios.get(requestUrl)
         .then(response => response.data.values);
@@ -77,7 +80,9 @@ export default class QuestionnaireClient {
     }
 
     getCandidates() {
-        return getSpreadsheetData({})
+        return getSpreadsheetData({
+                range: "Candidates!A1:AA500",
+            })
             .then(parseSpreadsheetData)
             .then(mapCandidates);
     }

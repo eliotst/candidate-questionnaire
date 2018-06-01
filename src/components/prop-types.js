@@ -1,5 +1,13 @@
 import PropTypes from "prop-types";
 
+const address = PropTypes.shape({
+    addressOne: PropTypes.string,
+    addressTwo: PropTypes.string,
+    city: PropTypes.string,
+    state: PropTypes.string,
+    postalCode: PropTypes.string,
+});
+
 const answer = PropTypes.shape({
     candidate: PropTypes.string.isRequired,
     answer: PropTypes.string.isRequired,
@@ -22,6 +30,7 @@ const question = PropTypes.shape({
 });
 
 export default {
+    address,
     answer,
     candidate,
     question,
