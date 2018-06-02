@@ -8,7 +8,9 @@ export default function DistrictAddressFields({ address, onChangeAddressField })
     return (
         <div className="address-fields">
             <div>
-                <label htmlFor="addressOne">Address One:</label>
+                <div className="label">
+                    <label htmlFor="addressOne">Address One:</label>
+                </div>
                 <input
                     name="addressOne"
                     id="addressOne"
@@ -17,7 +19,9 @@ export default function DistrictAddressFields({ address, onChangeAddressField })
                 />
             </div>
             <div>
-                <label htmlFor="addressOne">Address Two:</label>
+                <div className="label">
+                    <label htmlFor="addressTwo">Address Two:</label>
+                </div>
                 <input
                     name="addressTwo"
                     id="addressTwo"
@@ -26,7 +30,9 @@ export default function DistrictAddressFields({ address, onChangeAddressField })
                 />
             </div>
             <div>
-                <label htmlFor="addressOne">Postal Code</label>
+                <div className="label">
+                    <label htmlFor="postalCode">Postal Code:</label>
+                </div>
                 <input
                     name="postalCode"
                     id="postalCode"

@@ -30,7 +30,7 @@ const getRelevantDistricts = (candidates) => {
 export default class App extends React.Component {
     constructor(props) {
         super(props);
-        const currentDistrictParameter = getQueryParameter("district") || "Pennsylvania State House district 97";
+        const currentDistrictParameter = getQueryParameter("district") || null;
         this.state = {
             candidates: null,
             currentDistrict: currentDistrictParameter,
@@ -54,7 +54,11 @@ export default class App extends React.Component {
     }
 
     setCurrentDistrict(district) {
-        this.setState({
+        const { currentDistrict } = this.state;
+        if (currentDistrict === district) {
+            return this.setState({ currentDistrict: null });
+        }
+        return this.setState({
             currentDistrict: district,
         });
     }
@@ -70,7 +74,7 @@ export default class App extends React.Component {
         if (error !== null) {
             return <div>{error}</div>;
         }
-        if (questions === null || currentDistrict === null || candidates === null) {
+        if (questions === null || candidates === null) {
             return (
                 <div>Loading ...</div>
             );

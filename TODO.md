@@ -1,13 +1,10 @@
 # TODO
 
-* District Search by Address
 * Polish UI
- * Style district dropdown
+ * District selector as buttons
  * Style candidate table
+  * Fixed height/width on image
  * Overall polish
-* District page
- * Hide district picker?
- * Title page for district
 * Candidate page
  * Don't show district picker
 * Config

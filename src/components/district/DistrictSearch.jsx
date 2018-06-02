@@ -3,58 +3,32 @@ import React from "react";
 
 import DistrictAddressFields from "./DistrictAddressFields";
 import DistrictClient from "../../clients/district";
+import propTypes from "../prop-types";
 
 export default class DistrictSearch extends React.Component {
     constructor(props) {
         super(props);
         this.districtClient = new DistrictClient();
-        this.state = {
-            address: {
-                addressOne: undefined,
-                addressTwo: undefined,
-                city: undefined,
-                state: undefined,
-                postalCode: undefined,
-            },
-            matchingDistricts: [],
-        };
-        this.changeAddressField = this.changeAddressField.bind(this);
         this.search = this.search.bind(this);
     }
 
-    changeAddressField(fieldName, value) {
-        const { address } = this.state;
-        const updatedAddress = {
-            addressOne: address.addressOne,
-            addressTwo: address.addressTwo,
-            city: address.city,
-            state: address.state,
-            postalCode: address.postalCode,
-        };
-        updatedAddress[fieldName] = value;
-        this.setState({ address: updatedAddress });
-    }
-
     search() {
-        const { address } = this.state;
+        const { address, updateMatches } = this.props;
         this.districtClient.getDistrictsByAddress(address)
-            .then(districts => this.setState({ matchingDistricts: districts }));
+            .then(districts => updateMatches(districts));
     }
 
     render() {
-        const { address, matchingDistricts } = this.state;
-        const { onSelectDistrict } = this.props;
-        const matches = matchingDistricts.map(match =>
-            <button key={match} onClick={() => onSelectDistrict(match)}>{match}</button>);
+        const { address, onChangeAddressField, showAll } = this.props;
         return (
-            <div>
+            <div className="district-search">
                 <DistrictAddressFields
                     address={address}
-                    onChangeAddressField={this.changeAddressField}
+                    onChangeAddressField={onChangeAddressField}
                 />
-                <input type="button" value="Search" onClick={this.search} />
-                <div>
-                    {matches}
+                <div className="search-buttons">
+                    <button onClick={this.search}>Search</button>
+                    <button onClick={showAll}>Show All Districts</button>
                 </div>
             </div>
         );
@@ -62,5 +36,8 @@ export default class DistrictSearch extends React.Component {
 }
 
 DistrictSearch.propTypes = {
-    onSelectDistrict: PropTypes.func.isRequired,
+    address: propTypes.address.isRequired,
+    onChangeAddressField: PropTypes.func.isRequired,
+    showAll: PropTypes.func.isRequired,
+    updateMatches: PropTypes.func.isRequired,
 };

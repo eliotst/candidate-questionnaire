@@ -7,11 +7,12 @@ function generateFacebookLink(facebookId) {
 }
 
 export default function CandidateDetails({ candidate }) {
+    const candidateImage = {
+        backgroundImage: `url(${candidate.imageUrl})`,
+    };
     return (
         <li className="candidate-details">
-            <div className="image">
-                <img src={candidate.imageUrl} />
-            </div>
+            <div className="image" style={candidateImage} />
             <div className="name">{candidate.name}</div>
             <div className="party">{candidate.party}</div>
             <div className="candidate-type">{candidate.candidateType}</div>

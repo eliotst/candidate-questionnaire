@@ -2,19 +2,22 @@ import PropTypes from "prop-types";
 import React from "react";
 
 export default function DistrictList({ currentDistrict, districts, onSelectDistrict }) {
-    const districtOptions = districts.map(district =>
+    const districtButtons = districts.sort().map(district =>
         (
-            <option value={district} key={district} onClick={() => onSelectDistrict(district)}>
-                {district}
-            </option>
+            <li className="button-item" key={district}>
+                <button
+                    className={currentDistrict === district ? "current" : ""}
+                    onClick={() => onSelectDistrict(district)}
+                >
+                    {district}
+                </button>
+            </li>
         ));
-    const selectDistrict = evt => onSelectDistrict(evt.target.value);
     return (
         <div className="district-list">
-            <label htmlFor="districtSelector">Pick Your District</label>
-            <select id="districtSelector" value={currentDistrict} onChange={selectDistrict}>
-                {districtOptions}
-            </select>
+            <ul className="button-list">
+                {districtButtons}
+            </ul>
         </div>
     );
 }
@@ -26,5 +29,5 @@ DistrictList.propTypes = {
 };
 
 DistrictList.defaultProps = {
-    currentDistrict: "",
+    currentDistrict: null,
 };

@@ -11,8 +11,8 @@ export default function Questionnaire({
     currentCandidate,
     questions,
 }) {
-    if (currentCandidate === null && currentDistrict === null) {
-        return <div>Select a district above.</div>;
+    if (currentCandidate === null && (currentDistrict === null)) {
+        return null;
     }
     const questionnaireComponent = currentCandidate ?
         <Candidate currentCandidate={currentCandidate} questions={questions} /> :
