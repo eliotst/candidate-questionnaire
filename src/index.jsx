@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import App from "./components/App";
+import AppRouter from "./components/AppRouter";
 
 document.addEventListener("DOMContentLoaded", () => {
-    ReactDOM.render(<App />, document.getElementById("main"));
+    ReactDOM.render(<AppRouter />, document.getElementById("main"));
 });

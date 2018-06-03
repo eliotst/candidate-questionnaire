@@ -6,24 +6,36 @@ function generateFacebookLink(facebookId) {
     return `https://www.facebook.com/${facebookId}`;
 }
 
+function generateAllLinks(candidate) {
+    const result = [];
+    if (candidate.website) {
+        result.push(<a href={candidate.website}>Website</a>);
+    }
+    if (candidate.facebookId) {
+        result.push(<a href={generateFacebookLink(candidate.facebookId)}>Facebook</a>);
+    }
+    if (candidate.sponsoredLegislation) {
+        result.push(<a href={candidate.sponsoredLegislation}>Sponsored Legislation</a>);
+    }
+    return result;
+}
+
 export default function CandidateDetails({ candidate }) {
     const candidateImage = {
         backgroundImage: `url(${candidate.imageUrl})`,
     };
+    const externalLinks = generateAllLinks(candidate).map(link =>
+        <li>{link}</li>);
     return (
         <li className="candidate-details">
             <div className="image" style={candidateImage} />
             <div className="name">{candidate.name}</div>
             <div className="party">{candidate.party}</div>
             <div className="candidate-type">{candidate.candidateType}</div>
-            <ul className="external-links">
-                <li>
-                    <a href={candidate.website}>Website</a>
-                </li>
-                <li>
-                    <a href={generateFacebookLink(candidate.facebookId)}>Facebook Page</a>
-                </li>
-            </ul>
+            {externalLinks.length > 0 ?
+                <ul className="external-links">
+                    {externalLinks}
+                </ul> : null}
         </li>
     );
 }

@@ -54,6 +54,7 @@ function mapCandidates(csvData) {
         imageUrl: csvDatum["Candidate Picture URL"],
         website: csvDatum["Candidate Website URL"],
         facebookId: csvDatum["Candidate Facebook Name"],
+        sponsoredLegislation: csvDatum["Sponsored Legislation"],
     }));
 }
 
