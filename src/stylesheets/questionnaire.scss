@@ -51,12 +51,14 @@ $break-small: 450px;
         }
 
         .instructions {
-            font-size: 1.1rem;
             color: #0070B9;
+            display: block;
+            font-size: 1.1rem;
+            margin: 5px 0;
         }
     }
 
-    button {
+    .btn {
         background: #0070B9;
         border-radius: 3px;
         border-style: none;
@@ -68,7 +70,7 @@ $break-small: 450px;
         text-decoration: none;
     }
 
-    button:hover {
+    .btn:hover {
         background: lighten(#0070B9, 10%);
         text-decoration: none;
     }
@@ -242,38 +244,46 @@ $break-small: 450px;
     .candidate-comparison {
         margin-bottom: 50px;
         text-align: center;
+    }
 
-        .candidate-details {
-            display: inline-block;
-            height: 450px;
-            text-align: center;
-            vertical-align: top;
-            width: 300px;
+    .candidate-feature {
+        text-align: center;
 
-            .image {
-                background-position: center;
-                background-size: cover;
-                height: 200px;
-                margin: 0 auto;
-                overflow: hidden;
-                width: 200px;
-            }
+        h2 {
+            margin-bottom: 20px;
+        }
+    }
 
-            .name {
-                font-size: 2rem;
-                line-height: 2.5rem;
-                font-weight: 600px;
-            }
+    .candidate-details {
+        display: inline-block;
+        height: 450px;
+        text-align: center;
+        vertical-align: top;
+        width: 300px;
 
-            .party {
-                font-size: 1.7rem;
-                line-height: 2rem;
-            }
+        .image {
+            background-position: center;
+            background-size: cover;
+            height: 200px;
+            margin: 0 auto;
+            overflow: hidden;
+            width: 200px;
+        }
 
-            .candidate-type {
-                font-size: 1.5rem;
-                line-height: 1.7rem;
-            }
+        .name {
+            font-size: 2rem;
+            line-height: 2.5rem;
+            font-weight: 600px;
+        }
+
+        .party {
+            font-size: 1.7rem;
+            line-height: 2rem;
+        }
+
+        .candidate-type {
+            font-size: 1.5rem;
+            line-height: 1.7rem;
         }
     }
 

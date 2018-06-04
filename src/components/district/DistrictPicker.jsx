@@ -66,7 +66,8 @@ export default class DistrictPicker extends React.Component {
     }
 
     render() {
-        const { onSelectDistrict, currentDistrict } = this.props;
+        const { match } = this.props;
+        const { currentDistrict = null } = match.params;
         const { address, isShowingSearch, matchingDistricts } = this.state;
         return (
             <div className="district-picker">
@@ -87,11 +88,9 @@ export default class DistrictPicker extends React.Component {
                         <DistrictList
                             currentDistrict={currentDistrict}
                             districts={matchingDistricts}
-                            onSelectDistrict={onSelectDistrict}
                         /> :
                         <CurrentDistrict
                             currentDistrict={currentDistrict}
-                            onSelectDistrict={onSelectDistrict}
                         />
                     }
                 </div>
@@ -101,12 +100,10 @@ export default class DistrictPicker extends React.Component {
 }
 
 DistrictPicker.propTypes = {
-    currentDistrict: PropTypes.string,
     districts: PropTypes.arrayOf(PropTypes.string).isRequired,
-    onSelectDistrict: PropTypes.func.isRequired,
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            currentDistrict: PropTypes.string,
+        }).isRequired,
+    }).isRequired,
 };
-
-DistrictPicker.defaultProps = {
-    currentDistrict: null,
-};
-

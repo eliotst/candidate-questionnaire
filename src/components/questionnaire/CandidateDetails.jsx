@@ -25,7 +25,7 @@ export default function CandidateDetails({ candidate }) {
         backgroundImage: `url(${candidate.imageUrl})`,
     };
     const externalLinks = generateAllLinks(candidate).map(link =>
-        <li>{link}</li>);
+        <li key={candidate.name}>{link}</li>);
     return (
         <li className="candidate-details">
             <div className="image" style={candidateImage} />

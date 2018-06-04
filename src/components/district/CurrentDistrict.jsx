@@ -1,15 +1,16 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-export default function CurrentDistrict({ currentDistrict, onSelectDistrict }) {
+import { Link } from "react-router-dom";
+
+export default function CurrentDistrict({ currentDistrict }) {
     return (
-        <button className="current-district" onClick={() => onSelectDistrict(null)}>
-            {currentDistrict} <div className="instructions">(click to change)</div>
+        <button className="current-district">
+            {currentDistrict} <Link className="instructions" to="/">(click to change)</Link>
         </button>
     );
 }
 
 CurrentDistrict.propTypes = {
     currentDistrict: PropTypes.string.isRequired,
-    onSelectDistrict: PropTypes.func.isRequired,
 };

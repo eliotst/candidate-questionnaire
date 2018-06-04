@@ -1,16 +1,18 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-export default function DistrictList({ currentDistrict, districts, onSelectDistrict }) {
+import { Link } from "react-router-dom";
+
+export default function DistrictList({ currentDistrict, districts }) {
     const districtButtons = districts.sort().map(district =>
         (
             <li className="button-item" key={district}>
-                <button
-                    className={currentDistrict === district ? "current" : ""}
-                    onClick={() => onSelectDistrict(district)}
+                <Link
+                    className={currentDistrict === district ? "current btn" : "btn"}
+                    to={`/district/${district}`}
                 >
                     {district}
-                </button>
+                </Link>
             </li>
         ));
     return (
@@ -25,7 +27,6 @@ export default function DistrictList({ currentDistrict, districts, onSelectDistr
 DistrictList.propTypes = {
     currentDistrict: PropTypes.string,
     districts: PropTypes.arrayOf(PropTypes.string).isRequired,
-    onSelectDistrict: PropTypes.func.isRequired,
 };
 
 DistrictList.defaultProps = {

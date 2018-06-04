@@ -1,23 +1,13 @@
 import React from "react";
+import { Route } from "react-router-dom";
 
+import CandidateQuestionnaire from "./questionnaire/CandidateQuestionnaire";
 import DistrictClient from "../clients/district";
 import DistrictPicker from "./district/DistrictPicker";
-import Questionnaire from "./questionnaire/Questionnaire";
+import DistrictQuestionnaire from "./questionnaire/DistrictQuestionnaire";
 import QuestionnaireClient from "../clients/questionnaire";
 
 import "../stylesheets/questionnaire.scss";
-
-const getQueryParameter = (key) => {
-    const query = window.location.search.substring(1);
-    const vars = query.split("&");
-    for (let i = 0; i < vars.length; i += 1) {
-        const pair = vars[i].split("=");
-        if (decodeURIComponent(pair[0]) === key) {
-            return decodeURIComponent(pair[1]);
-        }
-    }
-    return undefined;
-};
 
 const getRelevantDistricts = (candidates) => {
     const candidateDistricts = candidates.reduce((acc, candidate) => {
@@ -30,17 +20,13 @@ const getRelevantDistricts = (candidates) => {
 export default class App extends React.Component {
     constructor(props) {
         super(props);
-        const currentDistrictParameter = getQueryParameter("district") || null;
         this.state = {
             candidates: null,
-            currentDistrict: currentDistrictParameter,
-            currentCandidate: null,
             error: null,
             questions: null,
         };
         this.questionnaireClient = new QuestionnaireClient({});
         this.districtClient = new DistrictClient({});
-        this.setCurrentDistrict = this.setCurrentDistrict.bind(this);
     }
 
     componentDidMount() {
@@ -53,21 +39,9 @@ export default class App extends React.Component {
             .catch(error => this.setState({ error }));
     }
 
-    setCurrentDistrict(district) {
-        const { currentDistrict } = this.state;
-        if (currentDistrict === district) {
-            return this.setState({ currentDistrict: null });
-        }
-        return this.setState({
-            currentDistrict: district,
-        });
-    }
-
     render() {
         const {
             candidates,
-            currentDistrict,
-            currentCandidate,
             error,
             questions,
         } = this.state;
@@ -82,16 +56,44 @@ export default class App extends React.Component {
         const relevantDistricts = getRelevantDistricts(candidates);
         return (
             <div>
-                <DistrictPicker
-                    currentDistrict={currentDistrict}
-                    districts={relevantDistricts}
-                    onSelectDistrict={this.setCurrentDistrict}
+                <Route
+                    path="/"
+                    exact
+                    render={props =>
+                        (<DistrictPicker
+                            districts={relevantDistricts}
+                            {...props}
+                        />)
+                    }
                 />
-                <Questionnaire
-                    candidates={candidates}
-                    currentDistrict={currentDistrict}
-                    currentCandidate={currentCandidate}
-                    questions={questions}
+                <Route
+                    path="/district/:currentDistrict"
+                    exact
+                    render={props =>
+                        (
+                            <div>
+                                <DistrictPicker
+                                    districts={relevantDistricts}
+                                    {...props}
+                                />
+                                <DistrictQuestionnaire
+                                    candidates={candidates}
+                                    questions={questions}
+                                    {...props}
+                                />
+                            </div>
+                        )
+                    }
+                />
+                <Route
+                    path="/candidate/:currentCandidate"
+                    render={props =>
+                        (<CandidateQuestionnaire
+                            candidates={candidates}
+                            questions={questions}
+                            {...props}
+                        />)
+                    }
                 />
             </div>
         );

@@ -36,10 +36,12 @@ export default class QuestionBlock extends React.Component {
         return (
             <div className="question-block">
                 <QuestionText text={question.text} />
-                <CandidateIcons
-                    candidates={candidates}
-                    setCurrentCandidate={this.setCurrentCandidate}
-                />
+                {candidates.length > 1 ?
+                    <CandidateIcons
+                        candidates={candidates}
+                        currentCandidate={currentCandidate}
+                        setCurrentCandidate={this.setCurrentCandidate}
+                    /> : null}
                 <Answer answer={currentAnswer} />
             </div>
         );
@@ -55,4 +57,3 @@ QuestionBlock.propTypes = {
 QuestionBlock.defaultProps = {
     currentCandidate: null,
 };
-

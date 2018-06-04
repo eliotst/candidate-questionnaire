@@ -11,7 +11,8 @@ const isQuestionRelevant = (question, relevantCandidateNames) => {
     return relevantAnswers.length > 0;
 };
 
-export default function District({ currentDistrict, candidates, questions }) {
+export default function DistrictQuestionnaire({ candidates, match, questions }) {
+    const { currentDistrict = null } = match.params;
     const relevantCandidates = candidates.filter(candidate =>
         candidate.district === currentDistrict);
     const relevantCandidateNames = relevantCandidates.map(candidate => candidate.name);
@@ -20,7 +21,7 @@ export default function District({ currentDistrict, candidates, questions }) {
     const questionBlocks = relevantQuestions.map(question =>
         <QuestionBlock key={question.text} question={question} candidates={relevantCandidates} />);
     return (
-        <div>
+        <div className="questionnaire">
             <CandidateComparison candidates={relevantCandidates} />
             <div className="instructions">Click on the picture of a candidate to see their answer.</div>
             {questionBlocks}
@@ -28,8 +29,12 @@ export default function District({ currentDistrict, candidates, questions }) {
     );
 }
 
-District.propTypes = {
+DistrictQuestionnaire.propTypes = {
     candidates: PropTypes.arrayOf(propTypes.candidate).isRequired,
-    currentDistrict: PropTypes.string.isRequired,
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            currentDistrict: PropTypes.string,
+        }).isRequired,
+    }).isRequired,
     questions: PropTypes.arrayOf(propTypes.question).isRequired,
 };
