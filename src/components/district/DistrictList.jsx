@@ -1,25 +1,53 @@
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import React from "react";
 
-import { Link } from "react-router-dom";
+const houseRegex = /House/;
+
+function categorizeDistricts(districts) {
+    const buckets = {
+        house: [],
+        senate: [],
+    };
+    districts.forEach((district) => {
+        if (district.match(houseRegex)) {
+            buckets.house.push(district);
+        } else {
+            buckets.senate.push(district);
+        }
+    });
+    return buckets;
+}
 
 export default function DistrictList({ currentDistrict, districts }) {
-    const districtButtons = districts.sort().map(district =>
-        (
-            <li className="button-item" key={district}>
-                <Link
-                    className={currentDistrict === district ? "current btn" : "btn"}
-                    to={`/district/${district}`}
-                >
-                    {district}
-                </Link>
-            </li>
-        ));
+    const generateButton = district => (
+        <li className="button-item" key={district}>
+            <Link
+                className={currentDistrict === district ? "current btn" : "btn"}
+                to={`/district/${district}`}
+            >
+                {district}
+            </Link>
+        </li>);
+    const categorizedDistricts = categorizeDistricts(districts.sort());
+    const houseButtons = categorizedDistricts.house.map(generateButton);
+    const senateButtons = categorizedDistricts.senate.map(generateButton);
     return (
         <div className="district-list">
-            <ul className="button-list">
-                {districtButtons}
-            </ul>
+            {houseButtons.length > 0 ?
+                <div>
+                    <h3 className="district-header">House Districts</h3>
+                    <ul className="button-list">
+                        {houseButtons}
+                    </ul>
+                </div> : null}
+            {senateButtons.length > 0 ?
+                <div>
+                    <h3 className="district-header">Senate Districts</h3>
+                    <ul className="button-list">
+                        {senateButtons}
+                    </ul>
+                </div> : null}
         </div>
     );
 }

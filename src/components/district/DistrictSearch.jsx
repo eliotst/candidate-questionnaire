@@ -27,8 +27,8 @@ export default class DistrictSearch extends React.Component {
                     onChangeAddressField={onChangeAddressField}
                 />
                 <div className="search-buttons">
-                    <button onClick={this.search}>Search</button>
-                    <button onClick={showAll}>Show All Districts</button>
+                    <button className="btn" onClick={this.search}>Search</button>
+                    <button className="btn" onClick={showAll}>Show All Districts</button>
                 </div>
             </div>
         );

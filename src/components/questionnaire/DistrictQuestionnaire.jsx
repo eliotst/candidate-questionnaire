@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 
 import CandidateComparison from "./CandidateComparison";
+import DistrictCandidatePageLinks from "./DistrictCandidatePageLinks";
 import propTypes from "../prop-types";
 import QuestionBlock from "./QuestionBlock";
 
@@ -25,6 +26,8 @@ export default function DistrictQuestionnaire({ candidates, match, questions }) 
             <CandidateComparison candidates={relevantCandidates} />
             <div className="instructions">Click on the picture of a candidate to see their answer.</div>
             {questionBlocks}
+            {relevantCandidates.length > 1 ?
+                <DistrictCandidatePageLinks candidates={relevantCandidates} /> : null}
         </div>
     );
 }

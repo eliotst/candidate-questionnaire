@@ -9,13 +9,22 @@ function generateFacebookLink(facebookId) {
 function generateAllLinks(candidate) {
     const result = [];
     if (candidate.website) {
-        result.push(<a href={candidate.website}>Website</a>);
+        result.push({
+            name: "Website",
+            url: candidate.website,
+        });
     }
     if (candidate.facebookId) {
-        result.push(<a href={generateFacebookLink(candidate.facebookId)}>Facebook</a>);
+        result.push({
+            name: "Facebook",
+            url: generateFacebookLink(candidate.facebookId),
+        });
     }
     if (candidate.sponsoredLegislation) {
-        result.push(<a href={candidate.sponsoredLegislation}>Sponsored Legislation</a>);
+        result.push({
+            name: "Sponsored Legislation",
+            url: candidate.sponsoredLegislation,
+        });
     }
     return result;
 }
@@ -25,7 +34,7 @@ export default function CandidateDetails({ candidate }) {
         backgroundImage: `url(${candidate.imageUrl})`,
     };
     const externalLinks = generateAllLinks(candidate).map(link =>
-        <li key={candidate.name}>{link}</li>);
+        <li key={link.name}><a href={link.url}>{link.name}</a></li>);
     return (
         <li className="candidate-details">
             <div className="image" style={candidateImage} />

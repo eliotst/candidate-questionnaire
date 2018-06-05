@@ -9,8 +9,12 @@ import CandidateIcons from "./CandidateIcons";
 export default class QuestionBlock extends React.Component {
     constructor(props) {
         super(props);
+        let { currentCandidate } = props;
+        if (props.candidates.length === 1) {
+            [currentCandidate] = props.candidates;
+        }
         this.state = {
-            currentCandidate: props.currentCandidate,
+            currentCandidate,
         };
         this.setCurrentCandidate = this.setCurrentCandidate.bind(this);
     }

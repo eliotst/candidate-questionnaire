@@ -99,6 +99,10 @@ $break-small: 450px;
     .district-list {
         width: 100%;
 
+        .district-header {
+            margin-top: 20px;
+        }
+
         .button-list {
             list-style: none;
             margin: 10px 0;
