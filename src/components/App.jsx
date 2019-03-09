@@ -2,58 +2,42 @@ import React from "react";
 import { Route } from "react-router-dom";
 
 import CandidateQuestionnaire from "./questionnaire/CandidateQuestionnaire";
-import DistrictClient from "../clients/district";
 import DistrictPicker from "./district/DistrictPicker";
 import DistrictQuestionnaire from "./questionnaire/DistrictQuestionnaire";
 import QuestionnaireClient from "../clients/questionnaire";
 
 import "../stylesheets/questionnaire.scss";
 
-const getRelevantDistricts = (candidates) => {
-    const candidateDistricts = candidates.reduce((acc, candidate) => {
-        acc[candidate.district] = true;
-        return acc;
-    }, {});
-    return Object.keys(candidateDistricts);
-};
-
 export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            candidates: null,
+            districts: null,
             error: null,
-            questions: null,
         };
         this.questionnaireClient = new QuestionnaireClient({});
-        this.districtClient = new DistrictClient({});
     }
 
     componentDidMount() {
         // const currentCandidateParameter = getQueryParameter("candidate");
-        this.questionnaireClient.getCandidates()
-            .then(candidates => this.setState({ candidates }))
-            .catch(error => this.setState({ error }));
-        this.questionnaireClient.getQuestions()
-            .then(questions => this.setState({ questions }))
+        this.questionnaireClient.getRelevantDistricts()
+            .then(districts => this.setState({ districts }))
             .catch(error => this.setState({ error }));
     }
 
     render() {
         const {
-            candidates,
+            districts,
             error,
-            questions,
         } = this.state;
         if (error !== null) {
             return <div>{error}</div>;
         }
-        if (questions === null || candidates === null) {
+        if (districts === null) {
             return (
                 <div>Loading ...</div>
             );
         }
-        const relevantDistricts = getRelevantDistricts(candidates);
         return (
             <div>
                 <Route
@@ -61,7 +45,7 @@ export default class App extends React.Component {
                     exact
                     render={props =>
                         (<DistrictPicker
-                            districts={relevantDistricts}
+                            districts={districts}
                             {...props}
                         />)
                     }
@@ -73,12 +57,11 @@ export default class App extends React.Component {
                         (
                             <div>
                                 <DistrictPicker
-                                    districts={relevantDistricts}
+                                    districts={districts}
                                     {...props}
                                 />
                                 <DistrictQuestionnaire
-                                    candidates={candidates}
-                                    questions={questions}
+                                    questionnaireClient={this.questionnaireClient}
                                     {...props}
                                 />
                             </div>
@@ -86,11 +69,12 @@ export default class App extends React.Component {
                     }
                 />
                 <Route
-                    path="/candidate/:currentCandidate"
+                    path="/district/:currentDistrict/candidate/:currentCandidate"
+                    exact
                     render={props =>
                         (<CandidateQuestionnaire
-                            candidates={candidates}
-                            questions={questions}
+                            districts={districts}
+                            questionnaireClient={this.questionnaireClient}
                             {...props}
                         />)
                     }

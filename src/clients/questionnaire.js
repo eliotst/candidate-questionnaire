@@ -10,6 +10,14 @@ function generateUrl(spreadsheetId, range, key) {
     return `${apiUrl}/${spreadsheetId}/values/${range}?key=${key}`;
 }
 
+const getRelevantDistricts = (candidates) => {
+    const candidateDistricts = candidates.reduce((acc, candidate) => {
+        acc[candidate.district] = true;
+        return acc;
+    }, {});
+    return Object.keys(candidateDistricts);
+};
+
 function getSpreadsheetData({
     spreadsheetId = defaultSpreadsheetId,
     range = RANGE,
@@ -74,25 +82,62 @@ function mapQuestions(csvData) {
     return questionObjects;
 }
 
+function loadConfig({ accessKey, districtSpreadsheetMap, spreadsheetId }) {
+    const windowConfig = window.CandidateQuestionnaire || {};
+    return {
+        accessKey: accessKey || windowConfig.accessKey || defaultKey,
+        districtSpreadsheetMap: districtSpreadsheetMap || window.districtSpreadsheetMap,
+        spreadsheetId: spreadsheetId || windowConfig.spreadsheetId || defaultSpreadsheetId,
+    };
+}
+
+function determineSpreadsheetId(currentDistrict, config) {
+    if (config.districtSpreadsheetMap === undefined || currentDistrict === undefined) {
+        return config.spreadsheetId;
+    }
+    return config.districtSpreadsheetMap[currentDistrict];
+}
+
 export default class QuestionnaireClient {
-    constructor({ accessToken, sheetUrl }) {
-        this.sheetUrl = sheetUrl;
-        this.accessToken = accessToken;
+    constructor(defaultConfig = {}) {
+        this.candidatePromise = null;
+        this.questionsPromise = null;
+        this.config = loadConfig(defaultConfig);
     }
 
-    getCandidates() {
-        return getSpreadsheetData({
+    getCandidates(currentDistrict) {
+        if (this.candidatePromise === null) {
+            const spreadsheetId = determineSpreadsheetId(currentDistrict, this.config);
+            this.candidatePromise = getSpreadsheetData({
+                key: this.config.accessKey,
                 range: "Candidates!A1:AA500",
+                spreadsheetId,
             })
-            .then(parseSpreadsheetData)
-            .then(mapCandidates);
+                .then(parseSpreadsheetData)
+                .then(mapCandidates);
+        }
+        return this.candidatePromise;
     }
 
-    getQuestions() {
-        return getSpreadsheetData({
+    getQuestions(currentDistrict) {
+        if (this.questionsPromise === null) {
+            const spreadsheetId = determineSpreadsheetId(currentDistrict, this.config);
+            this.questionsPromise = getSpreadsheetData({
+                key: this.config.accessKey,
                 range: "Questions!A1:AA500",
+                spreadsheetId,
             })
-            .then(parseSpreadsheetData)
-            .then(mapQuestions);
+                .then(parseSpreadsheetData)
+                .then(mapQuestions);
+        }
+        return this.questionsPromise;
+    }
+
+    getRelevantDistricts() {
+        const { districtSpreadsheetMap } = this.config;
+        if (districtSpreadsheetMap !== undefined) {
+            return Object.keys(districtSpreadsheetMap);
+        }
+        return this.getCandidates().then(getRelevantDistricts);
     }
 }

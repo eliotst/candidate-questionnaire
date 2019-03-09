@@ -1,15 +1,16 @@
 # TODO
 
-* Router
- * District search
+* District-specific questions
+ * Make component for passing candidates/questions
+ * Map district to questionnaire ID
+ * Qualify candidate URL with district
 * Candidate page
- * Don't show district picker
  * Re-style when candidate specific
  * Handle Write Ins
 * Polish UI
- * Style candidate table
+ * Work on styling
  * Overall polish
 * Config
- * Pull in API token from global
- * Pull in spreadsheet ID from global
+ * Pull show/hide search from global
  * Pull in state from global
+ * Handle errors on bad configs
