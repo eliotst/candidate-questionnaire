@@ -1,4 +1,4 @@
-$maincolor: #0070B9;
+$maincolor: #333333;
 
 body {
     margin: 0;
@@ -8,8 +8,7 @@ body {
     background-color: white;
     margin: 0 auto;
     min-height: 100%;
-    padding: 20px 0;
-    width: 75%;
+    padding: 20px 10px;
 }
 
 $break-medium: 768px;
@@ -51,7 +50,7 @@ $break-small: 450px;
         }
 
         .instructions {
-            color: #0070B9;
+            color: #333333;
             display: block;
             font-size: 1.1rem;
             margin: 5px 0;
@@ -59,7 +58,7 @@ $break-small: 450px;
     }
 
     .btn {
-        background: #0070B9;
+        background: #333333;
         border-radius: 3px;
         border-style: none;
         font-family: Arial;
@@ -71,7 +70,7 @@ $break-small: 450px;
     }
 
     .btn:hover {
-        background: lighten(#0070B9, 10%);
+        background: lighten(#333333, 10%);
         text-decoration: none;
     }
 
@@ -88,7 +87,7 @@ $break-small: 450px;
             border: none;
             border-style: none;
             font-family: Arial;
-            color: #0070B9;
+            color: #333333;
             font-size: 1.1rem;
             margin: 0 5px;
             padding: 5px;
@@ -107,6 +106,10 @@ $break-small: 450px;
             list-style: none;
             margin: 10px 0;
             padding-left: 0;
+
+            .button-item {
+                margin-bottom: 10px;
+            }
         }
     }
 
@@ -145,7 +148,7 @@ $break-small: 450px;
     max-width: 1024px;
 
     .candidate-info {
-        height: 200px;
+        min-height: 100px;
 
         @media screen and (max-width: $break-medium) {
             height: 300px;
@@ -260,10 +263,10 @@ $break-small: 450px;
 
     .candidate-details {
         display: inline-block;
-        height: 450px;
+        min-height: 360px;
         text-align: center;
         vertical-align: top;
-        width: 300px;
+        width: 250px;
 
         .image {
             background-position: center;
@@ -348,13 +351,16 @@ $break-small: 450px;
 }
 
     .candidate-icons {
-        margin: 10px auto;
+        margin: 20px auto;
+        text-align: center;
         width: 100%;
 
         .candidate-icon {
             cursor: pointer;
             display: inline-block;
             height: 160px;
+            margin: 0 5px;
+            min-width: 150px;
             position: relative;
             width: 50%;
 
@@ -369,6 +375,7 @@ $break-small: 450px;
                 border-width: 1px;
                 height: 150px;
                 left: 50%;
+                padding: 0!important;
                 position: absolute;
                 top: 50%;
                 transform: translate(-50%, -50%);
@@ -390,6 +397,9 @@ $break-small: 450px;
             }
 
             @media screen and (max-width: $break-small) {
+                height: 110px;
+                min-width: 100px;
+
                 .icon {
                     background-size: 100px;
                     height: 100px;

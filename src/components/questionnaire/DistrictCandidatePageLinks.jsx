@@ -5,8 +5,12 @@ import React from "react";
 import propTypes from "../prop-types";
 
 export default function DistrictCandidatePageLinks({ candidates }) {
-    const candidateLinks = candidates.map(candidate =>
-        <li key={candidate.name}><Link to={`/candidate/${candidate.name}`}>{candidate.name}</Link></li>);
+    const candidateLinks = candidates.map(candidate => (
+        <li key={candidate.name}>
+            <Link to={`/district/${candidate.district}/candidate/${candidate.name}`}>
+                {candidate.name}
+            </Link>
+        </li>));
     return (
         <div className="candidate-links">
             <div className="description">

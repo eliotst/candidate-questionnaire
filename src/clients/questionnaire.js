@@ -1,10 +1,6 @@
 import axios from "axios";
 
 const apiUrl = "https://sheets.googleapis.com/v4/spreadsheets";
-const defaultSpreadsheetId = "1EYBBLTLXT5BbbDalENOaIQNIWBpkYrNxc64sETH7X6E";
-const defaultKey = "AIzaSyC0anour3kbel1AV-hlxTiX9blUXUQqw3U";
-
-const RANGE = "A1:AA600";
 
 function generateUrl(spreadsheetId, range, key) {
     return `${apiUrl}/${spreadsheetId}/values/${range}?key=${key}`;
@@ -19,9 +15,9 @@ const getRelevantDistricts = (candidates) => {
 };
 
 function getSpreadsheetData({
-    spreadsheetId = defaultSpreadsheetId,
-    range = RANGE,
-    key = defaultKey,
+    spreadsheetId,
+    range,
+    key,
 }) {
     const requestUrl = generateUrl(spreadsheetId, range, key);
     return axios.get(requestUrl)
@@ -82,15 +78,6 @@ function mapQuestions(csvData) {
     return questionObjects;
 }
 
-function loadConfig({ accessKey, districtSpreadsheetMap, spreadsheetId }) {
-    const windowConfig = window.CandidateQuestionnaire || {};
-    return {
-        accessKey: accessKey || windowConfig.accessKey || defaultKey,
-        districtSpreadsheetMap: districtSpreadsheetMap || window.districtSpreadsheetMap,
-        spreadsheetId: spreadsheetId || windowConfig.spreadsheetId || defaultSpreadsheetId,
-    };
-}
-
 function determineSpreadsheetId(currentDistrict, config) {
     if (config.districtSpreadsheetMap === undefined || currentDistrict === undefined) {
         return config.spreadsheetId;
@@ -99,16 +86,17 @@ function determineSpreadsheetId(currentDistrict, config) {
 }
 
 export default class QuestionnaireClient {
-    constructor(defaultConfig = {}) {
-        this.candidatePromise = null;
-        this.questionsPromise = null;
-        this.config = loadConfig(defaultConfig);
+    constructor(config) {
+        this.candidatePromiseMap = {};
+        this.questionsPromiseMap = {};
+        this.config = config;
     }
 
     getCandidates(currentDistrict) {
-        if (this.candidatePromise === null) {
+        if (this.candidatePromiseMap[currentDistrict] === undefined) {
             const spreadsheetId = determineSpreadsheetId(currentDistrict, this.config);
-            this.candidatePromise = getSpreadsheetData({
+            this.cachedCandidateDistrict = currentDistrict;
+            this.candidatePromiseMap[currentDistrict] = getSpreadsheetData({
                 key: this.config.accessKey,
                 range: "Candidates!A1:AA500",
                 spreadsheetId,
@@ -116,13 +104,13 @@ export default class QuestionnaireClient {
                 .then(parseSpreadsheetData)
                 .then(mapCandidates);
         }
-        return this.candidatePromise;
+        return this.candidatePromiseMap[currentDistrict];
     }
 
     getQuestions(currentDistrict) {
-        if (this.questionsPromise === null) {
+        if (this.questionsPromiseMap[currentDistrict] === undefined) {
             const spreadsheetId = determineSpreadsheetId(currentDistrict, this.config);
-            this.questionsPromise = getSpreadsheetData({
+            this.questionsPromiseMap[currentDistrict] = getSpreadsheetData({
                 key: this.config.accessKey,
                 range: "Questions!A1:AA500",
                 spreadsheetId,
@@ -130,13 +118,13 @@ export default class QuestionnaireClient {
                 .then(parseSpreadsheetData)
                 .then(mapQuestions);
         }
-        return this.questionsPromise;
+        return this.questionsPromiseMap[currentDistrict];
     }
 
     getRelevantDistricts() {
         const { districtSpreadsheetMap } = this.config;
         if (districtSpreadsheetMap !== undefined) {
-            return Object.keys(districtSpreadsheetMap);
+            return Promise.resolve(Object.keys(districtSpreadsheetMap));
         }
         return this.getCandidates().then(getRelevantDistricts);
     }

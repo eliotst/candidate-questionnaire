@@ -3,7 +3,6 @@ import React from "react";
 
 import CandidateComparison from "./CandidateComparison";
 import DistrictCandidatePageLinks from "./DistrictCandidatePageLinks";
-import propTypes from "../prop-types";
 import QuestionBlock from "./QuestionBlock";
 import QuestionnaireClient from "../../clients/questionnaire";
 
@@ -52,8 +51,12 @@ export default class DistrictQuestionnaire extends React.Component {
         const relevantCandidateNames = relevantCandidates.map(candidate => candidate.name);
         const relevantQuestions = questions.filter(question =>
             isQuestionRelevant(question, relevantCandidateNames));
-        const questionBlocks = relevantQuestions.map(question =>
-            <QuestionBlock key={question.text} question={question} candidates={relevantCandidates} />);
+        const questionBlocks = relevantQuestions.map(question => (
+            <QuestionBlock
+                key={question.text}
+                question={question}
+                candidates={relevantCandidates}
+            />));
         return (
             <div className="questionnaire">
                 <CandidateComparison candidates={relevantCandidates} />

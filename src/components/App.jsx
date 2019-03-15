@@ -7,6 +7,7 @@ import DistrictQuestionnaire from "./questionnaire/DistrictQuestionnaire";
 import QuestionnaireClient from "../clients/questionnaire";
 
 import "../stylesheets/questionnaire.scss";
+import loadConfig from "../config";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -15,7 +16,8 @@ export default class App extends React.Component {
             districts: null,
             error: null,
         };
-        this.questionnaireClient = new QuestionnaireClient({});
+        this.config = loadConfig({});
+        this.questionnaireClient = new QuestionnaireClient(this.config);
     }
 
     componentDidMount() {
@@ -30,6 +32,7 @@ export default class App extends React.Component {
             districts,
             error,
         } = this.state;
+        const { supportSearch } = this.config;
         if (error !== null) {
             return <div>{error}</div>;
         }
@@ -46,6 +49,7 @@ export default class App extends React.Component {
                     render={props =>
                         (<DistrictPicker
                             districts={districts}
+                            supportSearch={supportSearch}
                             {...props}
                         />)
                     }
@@ -58,6 +62,7 @@ export default class App extends React.Component {
                             <div>
                                 <DistrictPicker
                                     districts={districts}
+                                    supportSearch={supportSearch}
                                     {...props}
                                 />
                                 <DistrictQuestionnaire
