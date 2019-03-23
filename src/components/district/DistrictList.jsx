@@ -3,17 +3,21 @@ import PropTypes from "prop-types";
 import React from "react";
 
 const houseRegex = /House/;
+const senateRegex = /Senate/;
 
 function categorizeDistricts(districts) {
     const buckets = {
         house: [],
+        other: [],
         senate: [],
     };
     districts.forEach((district) => {
         if (district.match(houseRegex)) {
             buckets.house.push(district);
-        } else {
+        } else if (district.match(senateRegex)) {
             buckets.senate.push(district);
+        } else {
+            buckets.other.push(district);
         }
     });
     return buckets;
@@ -32,6 +36,7 @@ export default function DistrictList({ currentDistrict, districts }) {
     const categorizedDistricts = categorizeDistricts(districts.sort());
     const houseButtons = categorizedDistricts.house.map(generateButton);
     const senateButtons = categorizedDistricts.senate.map(generateButton);
+    const otherButtons = categorizedDistricts.other.map(generateButton);
     return (
         <div className="district-list">
             {houseButtons.length > 0 ?
@@ -46,6 +51,13 @@ export default function DistrictList({ currentDistrict, districts }) {
                     <h3 className="district-header">Senate Districts</h3>
                     <ul className="button-list">
                         {senateButtons}
+                    </ul>
+                </div> : null}
+            {otherButtons.length > 0 ?
+                <div>
+                    <h3 className="district-header">Districts</h3>
+                    <ul className="button-list">
+                        {otherButtons}
                     </ul>
                 </div> : null}
         </div>

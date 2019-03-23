@@ -14,11 +14,13 @@ function determineIconClass(currentCandidate, candidate) {
 }
 
 export default function CandidateIcons({ candidates, currentCandidate, setCurrentCandidate }) {
+    const numberOfCandidates = candidates.length;
     const icons = candidates.map(candidate =>
         (<CandidateIcon
             key={candidate.name}
             candidate={candidate}
             iconClass={determineIconClass(currentCandidate, candidate)}
+            numberOfCandidates={numberOfCandidates}
             setCurrentCandidate={setCurrentCandidate}
         />));
     return (

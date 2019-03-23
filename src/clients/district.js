@@ -26,5 +26,5 @@ export default class DistrictClient {
             .then(response => response.data.offices
                 .filter(isRelevantOffice)
                 .map(office => office.name));
-}
+    }
 }

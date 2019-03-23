@@ -3,5 +3,6 @@ dist/
 .vscode/
 .eslintrc
 tmp/
+.firebase/
 
 npm-debug.log

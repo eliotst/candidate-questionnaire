@@ -66,23 +66,26 @@ export default class DistrictPicker extends React.Component {
     }
 
     render() {
-        const { match } = this.props;
+        const { match, supportSearch } = this.props;
         const { currentDistrict = null } = match.params;
         const { address, isShowingSearch, matchingDistricts } = this.state;
         return (
             <div className="district-picker">
-                <DistrictPickerHeader
-                    currentDistrict={currentDistrict}
-                    isShowingSearch={isShowingSearch}
-                    showSearch={this.showSearch}
-                />
-                {isShowingSearch ?
-                    <DistrictSearch
-                        address={address}
-                        onChangeAddressField={this.changeAddressField}
-                        showAll={this.showAll}
-                        updateMatches={this.updateMatches}
-                    /> : null}
+                {supportSearch ?
+                    <div>
+                        <DistrictPickerHeader
+                            currentDistrict={currentDistrict}
+                            isShowingSearch={isShowingSearch}
+                            showSearch={this.showSearch}
+                        />
+                        {isShowingSearch ?
+                            <DistrictSearch
+                                address={address}
+                                onChangeAddressField={this.changeAddressField}
+                                showAll={this.showAll}
+                                updateMatches={this.updateMatches}
+                            /> : null}
+                    </div> : null}
                 <div>
                     {currentDistrict === null ?
                         <DistrictList
@@ -106,4 +109,5 @@ DistrictPicker.propTypes = {
             currentDistrict: PropTypes.string,
         }).isRequired,
     }).isRequired,
+    supportSearch: PropTypes.bool.isRequired,
 };
