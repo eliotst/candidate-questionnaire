@@ -4,6 +4,7 @@
  * Re-style when candidate specific
  * Handle Write Ins
 * Polish UI
+ * default to only district if only one
  * Work on styling
  * Overall polish
 * Config

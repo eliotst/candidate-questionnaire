@@ -19,13 +19,13 @@ https://candidate-questionnaire.firebaseapp.com/main.js
 
 To install the app into a page, it is necessary to add three elements to the HTML of your page.
 
-### The content element
+### The main element
 
-This element is a div with an `id` attribute of `content`. This element is where the questionnaire
+This element is a div with an `id` attribute of `main`. This element is where the questionnaire
 will be inserted into the page.
 
 ```html
-<div id="content"></div>
+<div id="main"></div>
 ```
 
 ### The application script
